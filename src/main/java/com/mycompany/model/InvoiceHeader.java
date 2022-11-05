@@ -17,4 +17,14 @@ public class InvoiceHeader {
     public String invoiceDate;
     public ArrayList<InvoiceLine> invoiceLines;
     public int invoiceTotal;
+    
+     public String toCSV() {
+        String result = "";
+        StringBuilder sb = new StringBuilder();
+        sb.append(invoiceNum).append(",");
+        sb.append(invoiceDate).append(",");
+        sb.append(customerName);
+        result = sb.toString();
+        return result;
+    }
 }

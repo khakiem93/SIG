@@ -6,7 +6,12 @@ package com.mycompany.view;
 
 import com.mycompany.controller.FileOperations;
 import com.mycompany.model.InvoiceHeader;
+import com.mycompany.model.InvoiceLine;
+import java.io.File;
 import java.util.ArrayList;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -16,27 +21,12 @@ import javax.swing.table.TableModel;
  */
 public class InvoiveGeneratorForm extends javax.swing.JFrame {
 
-    
     /**
      * Creates new form InvoiveGeneratorForm
      */
     public InvoiveGeneratorForm() {
         initComponents();
-         FileOperations fo=new FileOperations();
-        
-           list=fo.readFile();
-         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        
-        Object rowData[] = new Object[4];
-        for(int i = 0; i < list.size(); i++)
-        {
-            rowData[0] = list.get(i).invoiceNum;
-            rowData[1] = list.get(i).invoiceDate;
-            rowData[2] = list.get(i).customerName;
-           
-            model.addRow(rowData);
-        }
-                
+
     }
 
     /**
@@ -62,6 +52,12 @@ public class InvoiveGeneratorForm extends javax.swing.JFrame {
         lbInvTotal = new javax.swing.JLabel();
         Invoiceitems = new javax.swing.JLabel();
         Invoicetable = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -110,6 +106,48 @@ public class InvoiveGeneratorForm extends javax.swing.JFrame {
 
         Invoicetable.setText("Invoice  table");
 
+        jButton1.setText("Load File");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Save File");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("Delete Invoice");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jButton4.setText("Delete Line");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jButton5.setText("Add Invoice");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        jButton6.setText("Add Line");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -118,7 +156,15 @@ public class InvoiveGeneratorForm extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(Invoicetable)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton3)
+                        .addGap(31, 31, 31)
+                        .addComponent(jButton5)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -139,19 +185,22 @@ public class InvoiveGeneratorForm extends javax.swing.JFrame {
                             .addGap(49, 49, 49)
                             .addComponent(lbInvNum)))
                     .addComponent(Invoiceitems)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 424, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 424, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButton4)
+                        .addGap(27, 27, 27)
+                        .addComponent(jButton6)))
                 .addGap(11, 11, 11))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(lbInvNum)
-                    .addComponent(Invoicetable))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel1)
+                            .addComponent(lbInvNum))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
@@ -168,11 +217,24 @@ public class InvoiveGeneratorForm extends javax.swing.JFrame {
                         .addComponent(Invoiceitems, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton4)
+                            .addComponent(jButton6))
+                        .addGap(0, 3, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton1)
+                            .addComponent(jButton2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Invoicetable)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton3)
+                            .addComponent(jButton5))))
+                .addContainerGap())
         );
 
         pack();
@@ -181,30 +243,168 @@ public class InvoiveGeneratorForm extends javax.swing.JFrame {
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
         TableModel model1 = jTable1.getModel();
         int SelectedRowIndex = jTable1.getSelectedRow();
-        int invNum = Integer.parseInt( model1.getValueAt(SelectedRowIndex, 0).toString() );
+        int invNum = Integer.parseInt(model1.getValueAt(SelectedRowIndex, 0).toString());
         InvoiceHeader invoice = null;
         for (InvoiceHeader inv : list) {
 
-                    if (inv.invoiceNum == invNum) {
-                       invoice=inv;
-                    }
+            if (inv.invoiceNum == invNum) {
+                invoice = inv;
+            }
 
-                }
-        DefaultTableModel model2 = (DefaultTableModel)jTable2.getModel();
+        }
+        DefaultTableModel model2 = (DefaultTableModel) jTable2.getModel();
+        model2.setRowCount(0);
         lbInvNum.setText(Integer.toString(invoice.invoiceNum));
         lbCustomer.setText(invoice.customerName);
         lbInvDate.setText(invoice.invoiceDate);
         lbInvTotal.setText(Integer.toString(invoice.invoiceTotal));
         Object[] row = new Object[4];
-        for(int i = 0; i < invoice.invoiceLines.size(); i++)
-        {
+        for (int i = 0; i < invoice.invoiceLines.size(); i++) {
             row[0] = invoice.invoiceLines.get(i).itemName;
             row[1] = invoice.invoiceLines.get(i).itemPrice;
             row[2] = invoice.invoiceLines.get(i).count;
             row[3] = invoice.invoiceLines.get(i).totalItem;
             model2.addRow(row);
-        }   
+        }
     }//GEN-LAST:event_jTable1MouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        JFileChooser fileChooser = new JFileChooser();
+        int returnValue = fileChooser.showDialog(null, "Select Invoice Headers File");
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            File headersSelectedFile = fileChooser.getSelectedFile();
+            headerFilePath = headersSelectedFile.getAbsolutePath();
+            fileChooser = new JFileChooser();
+            returnValue = fileChooser.showDialog(null, "Select Invoice Line File");
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
+                File LinesSelectedFile = fileChooser.getSelectedFile();
+                lineFilePath = LinesSelectedFile.getAbsolutePath();
+                FileOperations fo = new FileOperations();
+
+                list = fo.readFile(headerFilePath, lineFilePath);
+                DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                model.setRowCount(0);
+                Object rowData[] = new Object[4];
+                for (int i = 0; i < list.size(); i++) {
+                    rowData[0] = list.get(i).invoiceNum;
+                    rowData[1] = list.get(i).invoiceDate;
+                    rowData[2] = list.get(i).customerName;
+
+                    model.addRow(rowData);
+                }
+            }
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        JFileChooser fileChooser = new JFileChooser();
+        int returnValue = fileChooser.showDialog(null, "Select Invoice Headers File");
+        if (returnValue == JFileChooser.APPROVE_OPTION) {
+            File headersSelectedFile = fileChooser.getSelectedFile();
+            headerFilePath = headersSelectedFile.getAbsolutePath();
+            fileChooser = new JFileChooser();
+            returnValue = fileChooser.showDialog(null, "Select Invoice Line File");
+            if (returnValue == JFileChooser.APPROVE_OPTION) {
+                File LinesSelectedFile = fileChooser.getSelectedFile();
+                lineFilePath = LinesSelectedFile.getAbsolutePath();
+                FileOperations fo = new FileOperations();
+                fo.writeFile(list, headerFilePath, lineFilePath);
+            }
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        TableModel model1 = jTable1.getModel();
+        int SelectedRowIndex = jTable1.getSelectedRow();
+        if (SelectedRowIndex != -1) {
+            int invNum = Integer.parseInt(model1.getValueAt(SelectedRowIndex, 0).toString());
+            ((DefaultTableModel) model1).removeRow(SelectedRowIndex);
+            for (InvoiceHeader inv : list) {
+
+                if (inv.invoiceNum == invNum) {
+                    list.remove(inv);
+                }
+
+            }
+            JOptionPane.showMessageDialog(null, "Selected row deleted successfully");
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        TableModel model1 = jTable2.getModel();
+        int SelectedRowIndex = jTable2.getSelectedRow();
+        if (SelectedRowIndex != -1) {
+            int invNum = Integer.parseInt(lbInvNum.getText());
+            String itemName = model1.getValueAt(SelectedRowIndex, 0).toString();
+            ((DefaultTableModel) model1).removeRow(SelectedRowIndex);
+            for (InvoiceHeader inv : list) {
+
+                if (inv.invoiceNum == invNum) {
+                    for (InvoiceLine line : inv.invoiceLines) {
+                        if (line.itemName.contentEquals(itemName)) {
+                            inv.invoiceLines.remove(line);
+                        }
+                    }
+                }
+
+            }
+            JOptionPane.showMessageDialog(null, "Selected row deleted successfully");
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        AddInvoiceHeaderForm invoiceHeaderForm = new AddInvoiceHeaderForm();
+        invoiceHeaderForm.setVisible(true);
+        invoiceHeaderForm.pack();
+        invoiceHeaderForm.setLocationRelativeTo(null);
+        invoiceHeaderForm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        AddInvoiceLineForm invoiceLineForm = new AddInvoiceLineForm();
+        invoiceLineForm.setVisible(true);
+        invoiceLineForm.pack();
+        invoiceLineForm.setLocationRelativeTo(null);
+        invoiceLineForm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    }//GEN-LAST:event_jButton6ActionPerformed
+    public static void AddRowToInvoiceHeaders(Object[] dataRow) {
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        int invNum = list.get(list.size() - 1).invoiceNum + 1;
+        dataRow[0] = invNum;
+        model.addRow(dataRow);
+        InvoiceHeader h = new InvoiceHeader();
+        h.invoiceNum = invNum;
+        h.customerName = dataRow[2].toString();
+        h.invoiceDate = dataRow[1].toString();
+        list.add(h);
+    }
+
+    public static void AddRowToInvoiceLines(Object[] dataRow) {
+        DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
+        int invNum = Integer.parseInt(lbInvNum.getText());
+        InvoiceLine l = new InvoiceLine();
+        l.invoiceNumber=invNum;
+        l.itemName = dataRow[0].toString();
+        l.itemPrice = Integer.parseInt(dataRow[1].toString());
+        l.count = Integer.parseInt(dataRow[2].toString());
+        l.totalItem = l.itemPrice * l.count;
+        for (InvoiceHeader inv : list) {
+
+            if (inv.invoiceNum == invNum) {
+                inv.invoiceLines.add(l);
+                inv.invoiceTotal += l.totalItem;
+                lbInvTotal.setText(Integer.toString(inv.invoiceTotal));
+
+            }
+
+        }
+        dataRow[3] = l.totalItem;
+        model.addRow(dataRow);
+
+    }
 
     /**
      * @param args the command line arguments
@@ -240,23 +440,29 @@ public class InvoiveGeneratorForm extends javax.swing.JFrame {
             }
         });
     }
-    private ArrayList<InvoiceHeader> list;
+    private static ArrayList<InvoiceHeader> list;
+    private String headerFilePath;
+    private String lineFilePath;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Invoiceitems;
     private javax.swing.JLabel Invoicetable;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
+    private static javax.swing.JTable jTable1;
+    private static javax.swing.JTable jTable2;
     private javax.swing.JLabel lbCustomer;
     private javax.swing.JLabel lbInvDate;
-    private javax.swing.JLabel lbInvNum;
-    private javax.swing.JLabel lbInvTotal;
+    private static javax.swing.JLabel lbInvNum;
+    private static javax.swing.JLabel lbInvTotal;
     // End of variables declaration//GEN-END:variables
 }
-
-

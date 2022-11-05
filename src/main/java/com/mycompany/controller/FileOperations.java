@@ -10,7 +10,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Writer;
@@ -22,19 +24,17 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 /**
  *
  * @author Khalid
  */
 public class FileOperations {
 
-    public ArrayList<InvoiceHeader> readFile() {
+    public ArrayList<InvoiceHeader> readFile(String headerPath, String LinePath) {
         ArrayList<InvoiceHeader> invoiceHeaders = new ArrayList<>();
         try {
-            Scanner scanIn = new Scanner(new BufferedReader(new FileReader("src//InvoiceHeader.csv")));
-            while(scanIn.hasNextLine())
-            {
+            Scanner scanIn = new Scanner(new BufferedReader(new FileReader(headerPath)));
+            while (scanIn.hasNextLine()) {
                 String InputLine = scanIn.nextLine();
                 String InArray[] = InputLine.split(",");
                 InvoiceHeader invoice = new InvoiceHeader();
@@ -43,10 +43,9 @@ public class FileOperations {
                 invoice.customerName = InArray[2];
                 invoiceHeaders.add(invoice);
             }
-            
-            scanIn = new Scanner(new BufferedReader(new FileReader("src//InvoiceLine.csv")));
-            while(scanIn.hasNextLine())
-            {
+
+            scanIn = new Scanner(new BufferedReader(new FileReader(LinePath)));
+            while (scanIn.hasNextLine()) {
                 String InputLine = scanIn.nextLine();
                 String InArray[] = InputLine.split(",");
                 InvoiceLine line = new InvoiceLine();
@@ -76,5 +75,39 @@ public class FileOperations {
         }
         return invoiceHeaders;
     }
-      
+
+    public void writeFile(ArrayList<InvoiceHeader> invoices, String headerPath, String LinePath) {
+        FileOutputStream fos = null;
+        try {
+            String headers = "";
+            String lines = "";
+            for (InvoiceHeader inv : invoices) {
+                String invoiceHeader = inv.toCSV();
+                headers += invoiceHeader;
+                headers += System.lineSeparator();
+                for (InvoiceLine line : inv.invoiceLines) {
+                    String invoiceLine = line.toCSV();
+                    lines += invoiceLine;
+                    lines += System.lineSeparator();
+                }
+            }
+            File f = new File(headerPath);
+            FileWriter fw = new FileWriter(f);
+            fw.write(headers);
+            fw.flush();
+            fw.close();
+            f = new File(LinePath);
+            fw = new FileWriter(f);
+            fw.write(lines);
+            fw.flush();
+            fw.close();
+            
+        } catch (FileNotFoundException ex) {
+            System.out.println("File Not Found");
+        } catch (IOException ex) {
+            System.out.println("Error writting File");
+
+        } 
+    }
+
 }
