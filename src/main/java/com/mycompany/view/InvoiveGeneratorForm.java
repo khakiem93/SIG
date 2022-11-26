@@ -259,13 +259,17 @@ public class InvoiveGeneratorForm extends javax.swing.JFrame {
         lbInvDate.setText(invoice.invoiceDate);
         lbInvTotal.setText(Integer.toString(invoice.invoiceTotal));
         Object[] row = new Object[4];
-        for (int i = 0; i < invoice.invoiceLines.size(); i++) {
+        if(invoice.invoiceLines !=  null)
+        {
+            for (int i = 0; i < invoice.invoiceLines.size(); i++) {
             row[0] = invoice.invoiceLines.get(i).itemName;
             row[1] = invoice.invoiceLines.get(i).itemPrice;
             row[2] = invoice.invoiceLines.get(i).count;
             row[3] = invoice.invoiceLines.get(i).totalItem;
             model2.addRow(row);
         }
+        }
+        
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -289,7 +293,7 @@ public class InvoiveGeneratorForm extends javax.swing.JFrame {
                     rowData[0] = list.get(i).invoiceNum;
                     rowData[1] = list.get(i).invoiceDate;
                     rowData[2] = list.get(i).customerName;
-
+                    rowData[3] = list.get(i).invoiceTotal;
                     model.addRow(rowData);
                 }
             }
@@ -337,12 +341,19 @@ public class InvoiveGeneratorForm extends javax.swing.JFrame {
         if (SelectedRowIndex != -1) {
             int invNum = Integer.parseInt(lbInvNum.getText());
             String itemName = model1.getValueAt(SelectedRowIndex, 0).toString();
+            int itemTotalPrice = Integer.parseInt(model1.getValueAt(SelectedRowIndex, 3).toString());
+
             ((DefaultTableModel) model1).removeRow(SelectedRowIndex);
             for (InvoiceHeader inv : list) {
 
                 if (inv.invoiceNum == invNum) {
                     for (InvoiceLine line : inv.invoiceLines) {
                         if (line.itemName.contentEquals(itemName)) {
+                            inv.invoiceTotal -= itemTotalPrice;
+                            lbInvTotal.setText(Integer.toString(inv.invoiceTotal));
+                            TableModel model2 = jTable1.getModel();
+                            int SelectedRowIndex2 = jTable1.getSelectedRow();
+                            model2.setValueAt(inv.invoiceTotal, SelectedRowIndex2, 3);
                             inv.invoiceLines.remove(line);
                         }
                     }
@@ -386,7 +397,7 @@ public class InvoiveGeneratorForm extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) jTable2.getModel();
         int invNum = Integer.parseInt(lbInvNum.getText());
         InvoiceLine l = new InvoiceLine();
-        l.invoiceNumber=invNum;
+        l.invoiceNumber = invNum;
         l.itemName = dataRow[0].toString();
         l.itemPrice = Integer.parseInt(dataRow[1].toString());
         l.count = Integer.parseInt(dataRow[2].toString());
@@ -397,6 +408,9 @@ public class InvoiveGeneratorForm extends javax.swing.JFrame {
                 inv.invoiceLines.add(l);
                 inv.invoiceTotal += l.totalItem;
                 lbInvTotal.setText(Integer.toString(inv.invoiceTotal));
+                TableModel model1 = jTable1.getModel();
+                int SelectedRowIndex = jTable1.getSelectedRow();
+                model1.setValueAt(inv.invoiceTotal, SelectedRowIndex, 3);
 
             }
 
