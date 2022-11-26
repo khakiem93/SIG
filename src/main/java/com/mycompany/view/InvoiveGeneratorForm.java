@@ -259,17 +259,16 @@ public class InvoiveGeneratorForm extends javax.swing.JFrame {
         lbInvDate.setText(invoice.invoiceDate);
         lbInvTotal.setText(Integer.toString(invoice.invoiceTotal));
         Object[] row = new Object[4];
-        if(invoice.invoiceLines !=  null)
-        {
+        if (invoice.invoiceLines != null) {
             for (int i = 0; i < invoice.invoiceLines.size(); i++) {
-            row[0] = invoice.invoiceLines.get(i).itemName;
-            row[1] = invoice.invoiceLines.get(i).itemPrice;
-            row[2] = invoice.invoiceLines.get(i).count;
-            row[3] = invoice.invoiceLines.get(i).totalItem;
-            model2.addRow(row);
+                row[0] = invoice.invoiceLines.get(i).itemName;
+                row[1] = invoice.invoiceLines.get(i).itemPrice;
+                row[2] = invoice.invoiceLines.get(i).count;
+                row[3] = invoice.invoiceLines.get(i).totalItem;
+                model2.addRow(row);
+            }
         }
-        }
-        
+
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -405,7 +404,14 @@ public class InvoiveGeneratorForm extends javax.swing.JFrame {
         for (InvoiceHeader inv : list) {
 
             if (inv.invoiceNum == invNum) {
-                inv.invoiceLines.add(l);
+                if (inv.invoiceLines != null) {
+                    inv.invoiceLines.add(l);
+
+                } else {
+                    inv.invoiceLines = new ArrayList<InvoiceLine>();
+                    inv.invoiceLines.add(l);
+
+                }
                 inv.invoiceTotal += l.totalItem;
                 lbInvTotal.setText(Integer.toString(inv.invoiceTotal));
                 TableModel model1 = jTable1.getModel();
